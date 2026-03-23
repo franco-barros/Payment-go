@@ -17,14 +17,21 @@ type Stripe struct {
 var _ domain.PaymentMethod = (*Stripe)(nil)
 
 func (s Stripe) Pay(amount float64) error {
+	// 🔴 Validación básica
+	if amount <= 0 {
+		return fmt.Errorf("stripe: monto inválido")
+	}
+
+	// 🔴 Validación de dependencia
 	if s.Client == nil {
-		return fmt.Errorf("stripe client no inicializado")
+		return fmt.Errorf("stripe: client no inicializado")
 	}
 
 	fmt.Printf("Procesando pago con Stripe: %.2f\n", amount)
 
+	// 🔴 Error externo envuelto
 	if err := s.Client.Charge(amount); err != nil {
-		return fmt.Errorf("error al procesar pago con Stripe: %w", err)
+		return fmt.Errorf("stripe: error al procesar pago: %w", err)
 	}
 
 	return nil

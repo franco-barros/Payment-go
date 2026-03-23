@@ -9,7 +9,7 @@ type CreditCard struct {
 	Holder string
 	Number string
 }
-
+ 
 func (c CreditCard) Pay(amount float64) error {
 	if amount > 1000 {
 		return errors.New("monto excede el límite de la tarjeta")
